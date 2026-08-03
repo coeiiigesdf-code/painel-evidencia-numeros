@@ -302,7 +302,7 @@ def donut(labels, values, height=250):
         textinfo="percent", textfont=dict(size=11, color="white"), sort=False,
     )])
     fig.update_layout(
-        margin=dict(t=6, b=6, l=0, r=0), height=height,
+        margin=dict(t=20, b=20, l=20, r=20), height=height,
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
     )
@@ -499,17 +499,19 @@ with col_nps:
     if nps.get("destaque_pct"):
         st.markdown(
             f"""
-            <div class="destaque-box" style="background:{PANEL_BG};border-radius:10px;
-                        padding:12px 18px;margin-top:14px;display:inline-block;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                    {svg_icon('trophy')}
-                    <b style="color:{NAVY};font-size:13px;">Destaque</b>
-                </div>
-                <div style="color:{NAVY};font-weight:700;font-size:13px;margin-top:2px;">
-                    {nps.get('destaque_upa', '')}
-                </div>
-                <div style="color:{TEAL};font-weight:800;font-size:20px;margin-top:2px;">
-                    {fmt_pct(nps['destaque_pct'])}
+            <div style="text-align:center;margin-top:14px;">
+                <div class="destaque-box" style="background:{PANEL_BG};border-radius:10px;
+                            padding:12px 18px;display:inline-block;text-align:left;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        {svg_icon('trophy')}
+                        <b style="color:{NAVY};font-size:13px;">Destaque</b>
+                    </div>
+                    <div style="color:{NAVY};font-weight:700;font-size:13px;margin-top:2px;">
+                        {nps.get('destaque_upa', '')}
+                    </div>
+                    <div style="color:{TEAL};font-weight:800;font-size:20px;margin-top:2px;">
+                        {fmt_pct(nps['destaque_pct'])}
+                    </div>
                 </div>
             </div>
             """,
@@ -524,7 +526,7 @@ with col_ouv:
     if all(v is None or pd.isna(v) for v in ouv_values):
         st.info("Ouvidoria não disponível para este mês nesta fonte.")
     else:
-        st.plotly_chart(donut(ouv_labels, ouv_values, height=200), use_container_width=True,
+        st.plotly_chart(donut(ouv_labels, ouv_values, height=260), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
             simple_row(lab, fmt_pct(val, casas=1))
