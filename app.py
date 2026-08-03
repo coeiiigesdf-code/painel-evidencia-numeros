@@ -296,13 +296,15 @@ def simple_row(label, value):
 
 def donut(labels, values, height=250):
     vals = [_to_float(v) or 0 for v in values]
+    texts = [f"{v*100:.2f}".replace(".", ",") + "%" for v in vals]
     fig = go.Figure(data=[go.Pie(
         labels=labels, values=vals, hole=0.58,
         marker=dict(colors=DONUT_COLORS, line=dict(color="#FFFFFF", width=2)),
-        textinfo="none", sort=False,
+        text=texts, textinfo="text", textposition="outside",
+        textfont=dict(size=11, color=NAVY), sort=False,
     )])
     fig.update_layout(
-        margin=dict(t=20, b=20, l=20, r=20), height=height,
+        margin=dict(t=40, b=40, l=60, r=60), height=height,
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
     )
