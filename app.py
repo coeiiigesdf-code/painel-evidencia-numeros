@@ -226,23 +226,48 @@ row = df[df["rotulo"] == escolha].iloc[0]
 # ----------------------------------------------------------------------
 # Funções auxiliares
 # ----------------------------------------------------------------------
+def _to_float(v):
+    """Converte v para float com segurança. Aceita texto tipo '144.842.652,86',
+    'R$ 140,50', ou já vir como número. Retorna None se não der para converter,
+    em vez de quebrar o painel inteiro por causa de uma célula mal digitada."""
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return None if pd.isna(v) else float(v)
+    s = str(v).strip()
+    if s == "" or s.lower() in ("nan", "none", "—", "-"):
+        return None
+    s = s.replace("R$", "").replace(" ", "")
+    if "," in s and "." in s:
+        s = s.replace(".", "").replace(",", ".")
+    elif "," in s:
+        s = s.replace(",", ".")
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
 def fmt_money(v):
-    if v is None or pd.isna(v):
-        return "—"
+    v = _to_float(v)
+    if v is None:
+        return "— (verifique o valor na planilha)"
     return "R$ " + f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 def fmt_pct(v, casas=2):
-    if v is None or pd.isna(v):
+    v = _to_float(v)
+    if v is None:
         return "—"
     return f"{v*100:.{casas}f}%".replace(".", ",")
 
 def fmt_int(v):
-    if v is None or pd.isna(v):
+    v = _to_float(v)
+    if v is None:
         return "—"
     return f"{int(v):,}".replace(",", ".")
 
 def fmt_dias(v):
-    if v is None or pd.isna(v):
+    v = _to_float(v)
+    if v is None:
         return "—"
     return f"{v:.2f}".replace(".", ",") + " dias"
 
@@ -270,7 +295,7 @@ def simple_row(label, value):
     )
 
 def donut(labels, values, height=250):
-    vals = [v if v is not None and not pd.isna(v) else 0 for v in values]
+    vals = [_to_float(v) or 0 for v in values]
     fig = go.Figure(data=[go.Pie(
         labels=labels, values=vals, hole=0.58,
         marker=dict(colors=DONUT_COLORS, line=dict(color="#FFFFFF", width=2)),
@@ -285,7 +310,7 @@ def donut(labels, values, height=250):
 
 def svg_gauge(value, size=140):
     import math
-    v = 0 if value is None or pd.isna(value) else value
+    v = _to_float(value) or 0
     pct = max(0, min(100, v * 100))
     cx, cy, r = size / 2, size * 0.62, size * 0.42
     stroke_w = size * 0.11
@@ -418,9 +443,9 @@ with col4:
     simple_row("Total de participantes", fmt_int(row["eventos_participantes"]))
 
 faltando = []
-if pd.isna(row["atendimentos"]):
+if _to_float(row["atendimentos"]) is None:
     faltando.append("Atendimentos/Cirurgias")
-if pd.isna(row["hbdf_taxa_ocupacao_pct"]):
+if _to_float(row["hbdf_taxa_ocupacao_pct"]) is None:
     faltando.append("Ocupação/Permanência HBDF e HRSM")
 if faltando:
     missing_note(faltando)
