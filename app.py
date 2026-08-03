@@ -78,6 +78,12 @@ st.markdown(
             height: 6px; width: 100%; border-radius: 3px; margin-bottom: 22px;
             background: linear-gradient(90deg, {TEAL} 0%, #9BC53D 45%, {ORANGE} 100%);
         }}
+        div[data-testid="stHorizontalBlock"]:has(.main-title) {{
+            align-items: center !important;
+        }}
+        div[data-testid="stHorizontalBlock"]:has(.main-title) div[data-testid="stButton"] button {{
+            margin-top: 0 !important;
+        }}
         .header-row {{ display:flex; justify-content:space-between; align-items:flex-start; }}
         .main-title {{ font-size: 40px; font-weight: 800; color: {NAVY}; margin: 0; line-height:1.1; }}
         .month-box {{
@@ -85,7 +91,8 @@ st.markdown(
             background:{PANEL_BG}; border-radius:8px;
             font-size:20px; font-weight:700; color:{TEAL};
         }}
-        .logo-box img {{ height: 88px; object-fit: contain; }}
+        .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
+        .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
             font-size:14px; font-weight:800; color:{NAVY}; text-transform:none;
@@ -207,7 +214,6 @@ with h_mid:
         label_visibility="collapsed",
     )
 with h_refresh:
-    st.write("")
     if st.button("🔄", help="Atualizar dados da planilha agora (não precisa esperar o cache)"):
         st.cache_data.clear()
         st.rerun()
