@@ -85,7 +85,7 @@ st.markdown(
             background:{PANEL_BG}; border-radius:8px;
             font-size:20px; font-weight:700; color:{TEAL};
         }}
-        .logo-box img {{ height: 64px; object-fit: contain; }}
+        .logo-box img {{ height: 88px; object-fit: contain; }}
 
         .section-title {{
             font-size:14px; font-weight:800; color:{NAVY}; text-transform:none;
