@@ -194,7 +194,7 @@ df = load_data()
 # ----------------------------------------------------------------------
 st.markdown('<div class="top-gradient"></div>', unsafe_allow_html=True)
 
-h_left, h_mid, h_right = st.columns([3, 2, 1])
+h_left, h_mid, h_refresh, h_right = st.columns([3, 1.7, 0.5, 1])
 with h_left:
     st.markdown('<div class="main-title">Evidência em Números</div>', unsafe_allow_html=True)
 with h_mid:
@@ -206,6 +206,11 @@ with h_mid:
         index=0,
         label_visibility="collapsed",
     )
+with h_refresh:
+    st.write("")
+    if st.button("🔄", help="Atualizar dados da planilha agora (não precisa esperar o cache)"):
+        st.cache_data.clear()
+        st.rerun()
 with h_right:
     if LOGO_B64:
         st.markdown(
