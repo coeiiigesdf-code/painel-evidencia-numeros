@@ -299,7 +299,7 @@ def donut(labels, values, height=250):
     fig = go.Figure(data=[go.Pie(
         labels=labels, values=vals, hole=0.58,
         marker=dict(colors=DONUT_COLORS, line=dict(color="#FFFFFF", width=2)),
-        textinfo="percent", textfont=dict(size=11, color="white"), sort=False,
+        textinfo="none", sort=False,
     )])
     fig.update_layout(
         margin=dict(t=20, b=20, l=20, r=20), height=height,
@@ -330,7 +330,7 @@ def svg_gauge(value, size=140):
     track_path = f"M {x0:.1f} {y0:.1f} A {r:.1f} {r:.1f} 0 1 1 {x1:.1f} {y1:.1f}"
     value_path = f"M {x0:.1f} {y0:.1f} A {r:.1f} {r:.1f} 0 {large_arc} 1 {xv:.1f} {yv:.1f}"
 
-    pct_txt = f"{pct:.1f}".rstrip("0").rstrip(".") if pct != int(pct) else f"{int(pct)}"
+    pct_txt = f"{pct:.2f}".replace(".", ",")
 
     return f"""
     <svg width="{size}" height="{size*0.72:.0f}" viewBox="0 0 {size} {size*0.72:.0f}">
@@ -499,17 +499,17 @@ with col_nps:
     if nps.get("destaque_pct"):
         st.markdown(
             f"""
-            <div style="text-align:center;margin-top:14px;">
-                <div class="destaque-box" style="background:{PANEL_BG};border-radius:10px;
-                            padding:12px 18px;display:inline-block;text-align:left;">
-                    <div style="display:flex;align-items:center;gap:6px;">
+            <div style="text-align:center;margin-top:18px;">
+                <div class="destaque-box" style="background:{PANEL_BG};border-radius:12px;
+                            padding:18px 28px;display:inline-block;text-align:center;min-width:220px;">
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
                         {svg_icon('trophy')}
-                        <b style="color:{NAVY};font-size:13px;">Destaque</b>
+                        <b style="color:{NAVY};font-size:16px;">Destaque do mês</b>
                     </div>
-                    <div style="color:{NAVY};font-weight:700;font-size:13px;margin-top:2px;">
+                    <div style="color:{NAVY};font-weight:700;font-size:16px;margin-top:4px;">
                         {nps.get('destaque_upa', '')}
                     </div>
-                    <div style="color:{TEAL};font-weight:800;font-size:20px;margin-top:2px;">
+                    <div style="color:{TEAL};font-weight:800;font-size:28px;margin-top:4px;">
                         {fmt_pct(nps['destaque_pct'])}
                     </div>
                 </div>
@@ -529,7 +529,7 @@ with col_ouv:
         st.plotly_chart(donut(ouv_labels, ouv_values, height=260), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
-            simple_row(lab, fmt_pct(val, casas=1))
+            simple_row(lab, fmt_pct(val, casas=2))
 
 st.markdown(
     '<div class="footer-bar">COEII - Coordenação Estratégica de Informação Institucional</div>',
