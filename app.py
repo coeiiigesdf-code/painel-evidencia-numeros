@@ -418,7 +418,7 @@ with col_colab:
     with c3:
         kpi("Estatutário", fmt_int(row["colaboradores_estatutario"]), small=True)
 
-    st.markdown('<div style="margin-top:16px;"></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-top:110px;"></div>', unsafe_allow_html=True)
     section_title("Força de Trabalho - Celetista", "people")
     ft_rows = [
         ("Médicos", row.get("ft_medicos")),
