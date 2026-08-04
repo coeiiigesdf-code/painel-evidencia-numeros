@@ -94,16 +94,7 @@ st.markdown(
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
         div[data-testid="stPlotlyChart"] {{ justify-content: flex-start !important; }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) {{
-            align-items: stretch !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] {{
-            display: flex; flex-direction: column;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] > div {{
-            display: flex; flex-direction: column; height: 100%;
-        }}
-        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; flex-grow: 1; }}
+        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; }}
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
@@ -125,17 +116,17 @@ st.markdown(
             animation: piscar 1.6s ease-in-out infinite;
         }}
         .kpi-card {{
-            background:{CARD_BG}; border-radius:10px; padding:14px 16px; margin-bottom:12px;
+            background:{CARD_BG}; border-radius:10px; padding:20px 18px; margin-bottom:18px;
         }}
-        .kpi-label {{ font-size:12.5px; color:{NAVY}; font-weight:600; line-height:1.3; display:flex; align-items:center; }}
-        .kpi-value {{ font-size:22px; color:{TEAL}; font-weight:800; margin-top:3px; }}
-        .kpi-value-sm {{ font-size:18px; color:{NAVY}; font-weight:800; margin-top:2px; }}
+        .kpi-label {{ font-size:13px; color:{NAVY}; font-weight:600; line-height:1.3; display:flex; align-items:center; }}
+        .kpi-value {{ font-size:26px; color:{TEAL}; font-weight:800; margin-top:5px; }}
+        .kpi-value-sm {{ font-size:20px; color:{NAVY}; font-weight:800; margin-top:4px; }}
 
         .left-panel .kpi-card {{ background:#FFFFFF; }}
         .footnote {{ font-size:10.5px; color:{TEXT_MUTED}; margin-top:10px; line-height:1.4; }}
 
-        .simple-row {{ display:flex; justify-content:space-between; font-size:13px;
-                        color:{NAVY}; padding:3px 0; border-bottom:1px solid #EEF3F6; }}
+        .simple-row {{ display:flex; justify-content:space-between; font-size:14px;
+                        color:{NAVY}; padding:7px 0; border-bottom:1px solid #EEF3F6; }}
         .simple-row b {{ font-weight:700; }}
 
         .footer-bar {{
@@ -409,7 +400,7 @@ with col_custo:
     if all(v is None or pd.isna(v) for v in values):
         st.info("Sem dados de custo mensal para este mês.")
     else:
-        st.plotly_chart(donut(labels, values, height=230), use_container_width=True,
+        st.plotly_chart(donut(labels, values, height=340), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(labels, values):
             simple_row(lab, fmt_pct(val))
