@@ -87,8 +87,9 @@ st.markdown(
         .header-row {{ display:flex; justify-content:space-between; align-items:flex-start; }}
         .main-title {{ font-size: 40px; font-weight: 800; color: {NAVY}; margin: 0; line-height:1.1; }}
         .month-box {{
-            display:inline-block; margin-top:6px; margin-left:18px; padding:4px 14px;
-            background:{PANEL_BG}; border-radius:8px;
+            display:block; width:100%; box-sizing:border-box; margin:0 0 12px 0;
+            padding:8px 16px; text-align:center;
+            background:{PANEL_BG}; border-radius:10px;
             font-size:20px; font-weight:700; color:{TEAL};
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
@@ -224,7 +225,6 @@ with h_right:
             unsafe_allow_html=True,
         )
 
-st.markdown(f'<div class="month-box notranslate" translate="no">{escolha}</div>', unsafe_allow_html=True)
 st.write("")
 
 row = df[df["rotulo"] == escolha].iloc[0]
@@ -367,6 +367,7 @@ col_left, col_custo, col_colab, col_turn = st.columns([1.05, 1.25, 1.35, 1.05])
 
 with col_left:
     left_html = (
+        f'<div class="month-box notranslate" translate="no">{escolha}</div>'
         '<div class="left-panel">'
         + kpi_card_html("Repasse estimado da SES/DF ao IgesDF", fmt_money(row["repasse_estimado"]), "coin")
         + kpi_card_html("Repasse recebido - Contrato de Gestão", fmt_money(row["repasse_recebido_contrato_gestao"]), "handcoin")
