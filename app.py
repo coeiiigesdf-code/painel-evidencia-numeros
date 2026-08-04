@@ -94,18 +94,7 @@ st.markdown(
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
         div[data-testid="stPlotlyChart"] {{ justify-content: flex-start !important; }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) {{
-            align-items: stretch !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] {{
-            display: flex !important; flex-direction: column !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] > div[data-testid="stVerticalBlock"] {{
-            flex-grow: 1; display: flex; flex-direction: column;
-            background: {PANEL_BG}; border-radius: 14px; padding: 18px;
-            box-sizing: border-box;
-        }}
-        .left-panel {{ background:transparent; padding:0; flex-grow: 1; display:flex; flex-direction:column; }}
+        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; }}
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
