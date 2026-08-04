@@ -374,11 +374,14 @@ def missing_note(fields_labels):
 # ----------------------------------------------------------------------
 # Linha 1
 # ----------------------------------------------------------------------
+month_col, _sp1, _sp2, _sp3 = st.columns([1.05, 1.25, 1.35, 1.05])
+with month_col:
+    st.markdown(f'<div class="month-box notranslate" translate="no">{escolha}</div>', unsafe_allow_html=True)
+
 col_left, col_custo, col_colab, col_turn = st.columns([1.05, 1.25, 1.35, 1.05])
 
 with col_left:
     left_html = (
-        f'<div class="month-box notranslate" translate="no">{escolha}</div>'
         '<div class="left-panel">'
         + kpi_card_html("Repasse estimado da SES/DF ao IgesDF", fmt_money(row["repasse_estimado"]), "coin")
         + kpi_card_html("Repasse recebido - Contrato de Gestão", fmt_money(row["repasse_recebido_contrato_gestao"]), "handcoin")
@@ -546,7 +549,7 @@ with col_ouv:
     if all(v is None or pd.isna(v) for v in ouv_values):
         st.info("Ouvidoria não disponível para este mês nesta fonte.")
     else:
-        st.plotly_chart(donut(ouv_labels, ouv_values, height=260, width=260), use_container_width=False,
+        st.plotly_chart(donut(ouv_labels, ouv_values, height=340, width=340), use_container_width=False,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
             simple_row(lab, fmt_pct(val, casas=2))
