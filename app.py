@@ -116,7 +116,7 @@ st.markdown(
             animation: piscar 1.6s ease-in-out infinite;
         }}
         .kpi-card {{
-            background:{CARD_BG}; border-radius:10px; padding:20px 18px; margin-bottom:18px;
+            background:{CARD_BG}; border-radius:10px; padding:22px 18px; margin-bottom:22px;
         }}
         .kpi-label {{ font-size:13px; color:{NAVY}; font-weight:600; line-height:1.3; display:flex; align-items:center; }}
         .kpi-value {{ font-size:26px; color:{TEAL}; font-weight:800; margin-top:5px; }}
@@ -374,11 +374,11 @@ def missing_note(fields_labels):
 # ----------------------------------------------------------------------
 # Linha 1
 # ----------------------------------------------------------------------
-month_col, _sp1, _sp2, _sp3 = st.columns([1.05, 1.25, 1.35, 1.05])
+month_col, _sp0, _sp1, _sp2, _sp3, _sp4, _sp5 = st.columns([1.05, 0.12, 1.1, 0.12, 1.2, 0.12, 0.95])
 with month_col:
     st.markdown(f'<div class="month-box notranslate" translate="no">{escolha}</div>', unsafe_allow_html=True)
 
-col_left, col_custo, col_colab, col_turn = st.columns([1.05, 1.25, 1.35, 1.05])
+col_left, sp_a, col_custo, sp_b, col_colab, sp_c, col_turn = st.columns([1.05, 0.12, 1.1, 0.12, 1.2, 0.12, 0.95])
 
 with col_left:
     left_html = (
@@ -403,7 +403,7 @@ with col_custo:
     if all(v is None or pd.isna(v) for v in values):
         st.info("Sem dados de custo mensal para este mês.")
     else:
-        st.plotly_chart(donut(labels, values, height=210), use_container_width=True,
+        st.plotly_chart(donut(labels, values, height=250), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(labels, values):
             simple_row(lab, fmt_pct(val))
