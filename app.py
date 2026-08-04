@@ -202,17 +202,23 @@ df = load_data()
 # ----------------------------------------------------------------------
 st.markdown('<div class="top-gradient"></div>', unsafe_allow_html=True)
 
-h_left, h_mid, h_refresh, h_right = st.columns([3, 1.7, 0.5, 1])
+h_left, h_mid, h_reset, h_refresh, h_right = st.columns([3, 1.7, 0.5, 0.5, 1])
 with h_left:
     st.markdown('<div class="main-title notranslate" translate="no">Evidência em Números</div>', unsafe_allow_html=True)
 with h_mid:
     opcoes = df["rotulo"].tolist()
+    if "mes_filtro" not in st.session_state:
+        st.session_state["mes_filtro"] = opcoes[-1]
     escolha = st.selectbox(
         "Selecione o mês",
         opcoes,
-        index=len(opcoes) - 1,
+        key="mes_filtro",
         label_visibility="collapsed",
     )
+with h_reset:
+    if st.button("↺", help="Voltar para o mês mais recente"):
+        st.session_state["mes_filtro"] = opcoes[-1]
+        st.rerun()
 with h_refresh:
     if st.button("🔄", help="Atualizar dados da planilha agora (não precisa esperar o cache)"):
         st.cache_data.clear()
@@ -429,7 +435,16 @@ st.markdown("<hr style='border:none;border-top:1px solid #E5EBEF;margin:18px 0;'
 # ----------------------------------------------------------------------
 # Linha 2 — Dados assistenciais | HBDF | HRSM | Eventos
 # ----------------------------------------------------------------------
-col1, col2, col3, col4 = st.columns([0.9, 0.9, 1.3, 0.9])
+def centered_stat(label, value):
+    st.markdown(
+        f'<div class="notranslate" translate="no" style="text-align:center;margin-bottom:10px;">'
+        f'<div style="font-size:12px;color:{NAVY};font-weight:600;">{label}</div>'
+        f'<div style="font-size:17px;color:{TEAL};font-weight:800;margin-top:2px;">{value}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+col1, sp1, col2, sp2, col3, sp3, col4 = st.columns([0.9, 0.15, 0.8, 0.25, 1.15, 0.15, 0.9])
 
 with col1:
     section_title("Dados assistenciais", "stethoscope")
@@ -438,13 +453,13 @@ with col1:
 
 with col2:
     section_title("Hospital de Base", "hospital")
-    simple_row("Taxa de ocupação geral", fmt_pct(row["hbdf_taxa_ocupacao_pct"], casas=0))
-    simple_row("Média de permanência", fmt_dias(row["hbdf_media_permanencia_dias"]))
+    centered_stat("Taxa de ocupação geral", fmt_pct(row["hbdf_taxa_ocupacao_pct"], casas=0))
+    centered_stat("Média de permanência", fmt_dias(row["hbdf_media_permanencia_dias"]))
 
 with col3:
     section_title("Hospital Regional de Santa Maria", "hospital")
-    simple_row("Taxa de ocupação geral", fmt_pct(row["hrsm_taxa_ocupacao_pct"], casas=2))
-    simple_row("Média de permanência", fmt_dias(row["hrsm_media_permanencia_dias"]))
+    centered_stat("Taxa de ocupação geral", fmt_pct(row["hrsm_taxa_ocupacao_pct"], casas=2))
+    centered_stat("Média de permanência", fmt_dias(row["hrsm_media_permanencia_dias"]))
 
 with col4:
     section_title("Inovação, Ensino e Pesquisa", "grad")
@@ -535,10 +550,14 @@ with col_ouv:
     if all(v is None or pd.isna(v) for v in ouv_values):
         st.info("Ouvidoria não disponível para este mês nesta fonte.")
     else:
-        st.plotly_chart(donut(ouv_labels, ouv_values, height=260), use_container_width=True,
+        st.plotly_chart(donut(ouv_labels, ouv_values, height=175), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
-            simple_row(lab, fmt_pct(val, casas=2))
+            st.markdown(
+                f'<div class="simple-row notranslate" translate="no" style="font-size:11.5px;padding:1px 0;">'
+                f'<span>{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
+                unsafe_allow_html=True,
+            )
 
 st.markdown(
     '<div class="footer-bar notranslate" translate="no">COEII - Coordenação Estratégica de Informação Institucional</div>',
