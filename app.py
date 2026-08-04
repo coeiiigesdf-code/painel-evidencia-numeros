@@ -549,12 +549,7 @@ with col_ouv:
         st.plotly_chart(donut(ouv_labels, ouv_values, height=260, width=260), use_container_width=False,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
-            st.markdown(
-                f'<div class="simple-row notranslate" translate="no" '
-                f'style="display:flex;justify-content:flex-start;gap:10px;">'
-                f'<span>{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
-                unsafe_allow_html=True,
-            )
+            simple_row(lab, fmt_pct(val, casas=2))
 
 st.markdown(
     '<div class="footer-bar notranslate" translate="no">COEII - Coordenação Estratégica de Informação Institucional</div>',
