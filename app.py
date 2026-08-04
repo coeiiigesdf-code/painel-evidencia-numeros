@@ -94,6 +94,16 @@ st.markdown(
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
         div[data-testid="stPlotlyChart"] {{ justify-content: flex-start !important; }}
+        div[data-testid="stHorizontalBlock"]:has(.left-panel) {{
+            align-items: stretch !important;
+        }}
+        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] {{
+            display: flex; flex-direction: column;
+        }}
+        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"] > div {{
+            display: flex; flex-direction: column; height: 100%;
+        }}
+        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; flex-grow: 1; }}
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
@@ -121,7 +131,6 @@ st.markdown(
         .kpi-value {{ font-size:22px; color:{TEAL}; font-weight:800; margin-top:3px; }}
         .kpi-value-sm {{ font-size:18px; color:{NAVY}; font-weight:800; margin-top:2px; }}
 
-        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; }}
         .left-panel .kpi-card {{ background:#FFFFFF; }}
         .footnote {{ font-size:10.5px; color:{TEXT_MUTED}; margin-top:10px; line-height:1.4; }}
 
