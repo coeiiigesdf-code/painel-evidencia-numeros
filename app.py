@@ -307,7 +307,7 @@ def simple_row(label, value):
         unsafe_allow_html=True,
     )
 
-def donut(labels, values, height=250):
+def donut(labels, values, height=250, width=None):
     vals = [_to_float(v) or 0 for v in values]
     texts = [f"{v*100:.2f}".replace(".", ",") + "%" for v in vals]
     fig = go.Figure(data=[go.Pie(
@@ -316,11 +316,14 @@ def donut(labels, values, height=250):
         text=texts, textinfo="text", textposition="outside",
         textfont=dict(size=11, color=NAVY), sort=False,
     )])
-    fig.update_layout(
+    layout_kwargs = dict(
         margin=dict(t=40, b=40, l=60, r=60), height=height,
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
     )
+    if width:
+        layout_kwargs["width"] = width
+    fig.update_layout(**layout_kwargs)
     return fig
 
 def svg_gauge(value, size=140):
@@ -471,7 +474,7 @@ st.markdown("<hr style='border:none;border-top:1px solid #E5EBEF;margin:18px 0;'
 # ----------------------------------------------------------------------
 # Linha 3 — NPS por unidade | Ouvidoria
 # ----------------------------------------------------------------------
-col_nps, col_ouv = st.columns([3.78, 1])
+col_nps, col_ouv_spacer, col_ouv = st.columns([3.0, 0.5, 1.3])
 
 with col_nps:
     section_title("Satisfação do usuário", "star")
@@ -542,13 +545,13 @@ with col_ouv:
     if all(v is None or pd.isna(v) for v in ouv_values):
         st.info("Ouvidoria não disponível para este mês nesta fonte.")
     else:
-        st.plotly_chart(donut(ouv_labels, ouv_values, height=240), use_container_width=True,
+        st.plotly_chart(donut(ouv_labels, ouv_values, height=260, width=260), use_container_width=False,
                          config={"displayModeBar": False})
         for lab, val in zip(ouv_labels, ouv_values):
             st.markdown(
                 f'<div class="simple-row notranslate" translate="no" '
-                f'style="display:flex;justify-content:flex-start;gap:10px;padding-left:14px;">'
-                f'<span style="min-width:80px;">{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
+                f'style="display:flex;justify-content:center;gap:10px;">'
+                f'<span style="min-width:80px;text-align:right;">{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
                 unsafe_allow_html=True,
             )
 
