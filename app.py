@@ -87,7 +87,7 @@ st.markdown(
         .header-row {{ display:flex; justify-content:space-between; align-items:flex-start; }}
         .main-title {{ font-size: 40px; font-weight: 800; color: {NAVY}; margin: 0; line-height:1.1; }}
         .month-box {{
-            display:inline-block; margin-top:6px; padding:4px 14px;
+            display:inline-block; margin-top:6px; margin-left:18px; padding:4px 14px;
             background:{PANEL_BG}; border-radius:8px;
             font-size:20px; font-weight:700; color:{TEAL};
         }}
@@ -203,14 +203,13 @@ st.markdown('<div class="top-gradient"></div>', unsafe_allow_html=True)
 
 h_left, h_mid, h_refresh, h_right = st.columns([3, 1.7, 0.5, 1])
 with h_left:
-    st.markdown('<div class="main-title">Evidência em Números</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title notranslate" translate="no">Evidência em Números</div>', unsafe_allow_html=True)
 with h_mid:
-    PLACEHOLDER = "— Selecione um mês —"
-    opcoes = [PLACEHOLDER] + df["rotulo"].tolist()
+    opcoes = df["rotulo"].tolist()
     escolha = st.selectbox(
         "Selecione o mês",
         opcoes,
-        index=0,
+        index=len(opcoes) - 1,
         label_visibility="collapsed",
     )
 with h_refresh:
@@ -225,11 +224,7 @@ with h_right:
             unsafe_allow_html=True,
         )
 
-if escolha == PLACEHOLDER:
-    st.info("👆 Selecione um mês no campo acima para ver os dados do painel.")
-    st.stop()
-
-st.markdown(f'<div class="month-box">{escolha}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="month-box notranslate" translate="no">{escolha}</div>', unsafe_allow_html=True)
 st.write("")
 
 row = df[df["rotulo"] == escolha].iloc[0]
@@ -286,7 +281,7 @@ def kpi(label, value, small=False, icon_kind=None):
     cls = "kpi-value-sm" if small else "kpi-value"
     icon_html = f'<span class="icon">{svg_icon(icon_kind, color=NAVY)}</span>' if icon_kind else ""
     st.markdown(
-        f'<div class="kpi-card"><div class="kpi-label">{icon_html}{label}</div>'
+        f'<div class="kpi-card notranslate" translate="no"><div class="kpi-label">{icon_html}{label}</div>'
         f'<div class="{cls}">{value}</div></div>',
         unsafe_allow_html=True,
     )
@@ -294,14 +289,14 @@ def kpi(label, value, small=False, icon_kind=None):
 def section_title(text, icon_kind=""):
     icon_html = svg_icon(icon_kind, color=NAVY) if icon_kind else ""
     st.markdown(
-        f'<div class="section-title"><span class="icon">{icon_html}</span>'
+        f'<div class="section-title notranslate" translate="no"><span class="icon">{icon_html}</span>'
         f'<span class="txt">{text}</span></div>',
         unsafe_allow_html=True,
     )
 
 def simple_row(label, value):
     st.markdown(
-        f'<div class="simple-row"><span>{label}</span><b>{value}</b></div>',
+        f'<div class="simple-row notranslate" translate="no"><span>{label}</span><b>{value}</b></div>',
         unsafe_allow_html=True,
     )
 
@@ -357,7 +352,7 @@ def svg_gauge(value, size=140):
 def kpi_card_html(label, value, icon_kind=None, bg="#FFFFFF"):
     icon_html = f'<span class="icon">{svg_icon(icon_kind, color=NAVY)}</span>' if icon_kind else ""
     return (
-        f'<div class="kpi-card" style="background:{bg};">'
+        f'<div class="kpi-card notranslate" translate="no" style="background:{bg};">'
         f'<div class="kpi-label">{icon_html}{label}</div>'
         f'<div class="kpi-value">{value}</div></div>'
     )
@@ -376,7 +371,7 @@ with col_left:
         + kpi_card_html("Repasse estimado da SES/DF ao IgesDF", fmt_money(row["repasse_estimado"]), "coin")
         + kpi_card_html("Repasse recebido - Contrato de Gestão", fmt_money(row["repasse_recebido_contrato_gestao"]), "handcoin")
         + kpi_card_html("Total de ingressos", fmt_money(row["total_ingressos"]), "arrow")
-        + '<div class="footnote">* Ingressos: repasse + convênios federais; rendimentos; '
+        + '<div class="footnote notranslate" translate="no">* Ingressos: repasse + convênios federais; rendimentos; '
           'convênios de pesquisas; convênios de programa de estágios; inscrições/mensalidades '
           'programas de treinamento; receita da biblioteca; 2ª via de documentos '
           '(crachá/estacionamento); estornos de RH; juros recebidos.</div>'
@@ -426,14 +421,14 @@ with col_turn:
     kpi("Turnover geral", fmt_pct(row["turnover_geral_pct"]))
     kpi("Admissões", fmt_int(row["admissoes_geral"]), small=True)
     kpi("Desligamentos", fmt_int(row["desligamentos_geral"]), small=True)
-    st.markdown('<div class="footnote">*Taxa de rotatividade dos colaboradores.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="footnote notranslate" translate="no">*Taxa de rotatividade dos colaboradores.</div>', unsafe_allow_html=True)
 
 st.markdown("<hr style='border:none;border-top:1px solid #E5EBEF;margin:18px 0;'>", unsafe_allow_html=True)
 
 # ----------------------------------------------------------------------
 # Linha 2 — Dados assistenciais | HBDF | HRSM | Eventos
 # ----------------------------------------------------------------------
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4 = st.columns([0.9, 0.9, 1.3, 0.9])
 
 with col1:
     section_title("Dados assistenciais", "stethoscope")
@@ -504,7 +499,7 @@ with col_nps:
                 with gc:
                     st.markdown(
                         f'<div style="text-align:center;">{svg_gauge(val)}'
-                        f'<div style="font-size:11px;color:{NAVY};font-weight:700;'
+                        f'<div class="notranslate" translate="no" style="font-size:11px;color:{NAVY};font-weight:700;'
                         f'margin-top:2px;">{label}</div></div>',
                         unsafe_allow_html=True,
                     )
@@ -513,7 +508,7 @@ with col_nps:
         st.markdown(
             f"""
             <div style="text-align:center;margin-top:18px;">
-                <div class="destaque-box" style="background:{PANEL_BG};border-radius:12px;
+                <div class="destaque-box notranslate" translate="no" style="background:{PANEL_BG};border-radius:12px;
                             padding:18px 28px;display:inline-block;text-align:center;min-width:220px;">
                     <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
                         {svg_icon('trophy')}
@@ -545,6 +540,6 @@ with col_ouv:
             simple_row(lab, fmt_pct(val, casas=2))
 
 st.markdown(
-    '<div class="footer-bar">COEII - Coordenação Estratégica de Informação Institucional</div>',
+    '<div class="footer-bar notranslate" translate="no">COEII - Coordenação Estratégica de Informação Institucional</div>',
     unsafe_allow_html=True,
 )
