@@ -93,6 +93,7 @@ st.markdown(
             font-size:20px; font-weight:700; color:{TEAL};
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
+        div[data-testid="stPlotlyChart"] {{ justify-content: flex-start !important; }}
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
@@ -550,7 +551,7 @@ with col_ouv:
         for lab, val in zip(ouv_labels, ouv_values):
             st.markdown(
                 f'<div class="simple-row notranslate" translate="no" '
-                f'style="display:flex;justify-content:center;gap:10px;">'
+                f'style="display:flex;justify-content:flex-end;gap:10px;">'
                 f'<span style="min-width:80px;text-align:right;">{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
                 unsafe_allow_html=True,
             )
