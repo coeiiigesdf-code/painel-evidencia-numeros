@@ -475,7 +475,7 @@ st.markdown("<hr style='border:none;border-top:1px solid #E5EBEF;margin:18px 0;'
 # ----------------------------------------------------------------------
 # Linha 3 — NPS por unidade | Ouvidoria
 # ----------------------------------------------------------------------
-col_nps, col_ouv_spacer, col_ouv = st.columns([3.0, 0.5, 1.3])
+col_nps, col_ouv_spacer, col_ouv = st.columns([3.3, 0.5, 1.0])
 
 with col_nps:
     section_title("Satisfação do usuário", "star")
@@ -551,8 +551,8 @@ with col_ouv:
         for lab, val in zip(ouv_labels, ouv_values):
             st.markdown(
                 f'<div class="simple-row notranslate" translate="no" '
-                f'style="display:flex;justify-content:flex-end;gap:10px;">'
-                f'<span style="min-width:80px;text-align:right;">{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
+                f'style="display:flex;justify-content:flex-start;gap:10px;">'
+                f'<span>{lab}</span><b>{fmt_pct(val, casas=2)}</b></div>',
                 unsafe_allow_html=True,
             )
 
