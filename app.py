@@ -72,7 +72,7 @@ st.markdown(
     <style>
         .stApp {{ background-color: #FFFFFF; }}
         #MainMenu, footer, header {{ visibility: hidden; }}
-        .block-container {{ padding-top: 1rem; max-width: 1300px; }}
+        .block-container {{ padding-top: 1rem; max-width: 1700px; }}
 
         .top-gradient {{
             height: 6px; width: 100%; border-radius: 3px; margin-bottom: 22px;
@@ -98,8 +98,8 @@ st.markdown(
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
-            font-size:14px; font-weight:800; color:{NAVY}; text-transform:none;
-            margin: 2px 0 10px 0;
+            font-size:16px; font-weight:800; color:{NAVY}; text-transform:none;
+            margin: 2px 0 12px 0;
         }}
         .section-title .icon, .kpi-label .icon {{
             display:inline-flex; vertical-align:middle; margin-right: 7px;
@@ -327,7 +327,7 @@ def donut(labels, values, height=250, width=None):
     fig.update_layout(**layout_kwargs)
     return fig
 
-def svg_gauge(value, size=140):
+def svg_gauge(value, size=170):
     import math
     v = _to_float(value) or 0
     pct = max(0, min(100, v * 100))
