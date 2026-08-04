@@ -94,16 +94,7 @@ st.markdown(
         }}
         .logo-box {{ display:flex; align-items:center; justify-content:flex-end; height:100%; }}
         div[data-testid="stPlotlyChart"] {{ justify-content: flex-start !important; }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) {{
-            align-items: stretch !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"]:first-child {{
-            display: flex !important; flex-direction: column !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.left-panel) > div[data-testid="column"]:first-child > div {{
-            display: flex; flex-direction: column; height: 100%;
-        }}
-        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; flex-grow: 1; }}
+        .left-panel {{ background:{PANEL_BG}; border-radius:14px; padding:18px; }}
         .logo-box img {{ height: 60px; object-fit: contain; }}
 
         .section-title {{
@@ -412,7 +403,7 @@ with col_custo:
     if all(v is None or pd.isna(v) for v in values):
         st.info("Sem dados de custo mensal para este mês.")
     else:
-        st.plotly_chart(donut(labels, values, height=340), use_container_width=True,
+        st.plotly_chart(donut(labels, values, height=210), use_container_width=True,
                          config={"displayModeBar": False})
         for lab, val in zip(labels, values):
             simple_row(lab, fmt_pct(val))
