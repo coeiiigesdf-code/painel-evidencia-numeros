@@ -507,18 +507,17 @@ with col_nps:
     if not itens:
         st.info("NPS por unidade não disponível para este mês nesta fonte.")
     else:
-        n_cols = 6
-        for i in range(0, len(itens), n_cols):
-            chunk = itens[i:i + n_cols]
-            gcols = st.columns(n_cols)
-            for gc, (label, val) in zip(gcols, chunk):
-                with gc:
-                    st.markdown(
-                        f'<div style="text-align:center;">{svg_gauge(val)}'
-                        f'<div class="notranslate" translate="no" style="font-size:11px;color:{NAVY};font-weight:700;'
-                        f'margin-top:2px;">{label}</div></div>',
-                        unsafe_allow_html=True,
-                    )
+        gauge_items_html = "".join(
+            f'<div style="flex:0 0 auto;width:150px;text-align:center;margin-bottom:14px;">'
+            f'{svg_gauge(val)}'
+            f'<div class="notranslate" translate="no" style="font-size:11px;color:{NAVY};font-weight:700;'
+            f'margin-top:2px;">{label}</div></div>'
+            for label, val in itens
+        )
+        st.markdown(
+            f'<div style="display:flex;flex-wrap:wrap;gap:6px;">{gauge_items_html}</div>',
+            unsafe_allow_html=True,
+        )
 
     if nps.get("destaque_pct"):
         st.markdown(
